@@ -42,8 +42,8 @@ optional arguments:
   --image IMAGE  image name
   --scale SCALE  scale factor, Default: 4
 ```
-We convert Set5 test set images to mat format using Matlab, for best PSNR performance, please use Matlab
-An example of usage is shown as follows:
+  - We convert Set5 test set images to mat format using Matlab, for best PSNR performance, please use Matlab
+  - An example of usage is shown as follows:
 ```
 python test.py --model model/model_edsr.pth --image butterfly_GT --scale 4 --cuda
 ```
@@ -61,7 +61,8 @@ optional arguments:
   --model MODEL      Model path. Default=model/model_epoch_40.pth
   --dataset DATASET  Dataset name, Default: Set5
 ```
-An example of training usage is shown as follows:
+  - An trained model on [291](https://drive.google.com/open?id=1Rt3asDLuMgLuJvPA1YrhyjWhb97Ly742) images can be downloaded at [google_drive](https://drive.google.com/file/d/1DsvRuKMe91Rxhy7_r6t9mrZeMxARa-fT/view?usp=shar5ng), which could achieve 31.94dB PNSR on Set5 dataset.
+  - An example of training usage is shown as follows:
 ```
 python eval.py --cuda --model model/model_edsr.pth --dataset Set5
 ```
