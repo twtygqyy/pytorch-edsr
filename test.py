@@ -58,7 +58,7 @@ im_h = out.data[0].numpy().astype(np.float32)
 
 im_h = im_h*255.
 im_h[im_h<0] = 0
-im_h[im_h>255.] = 255.            
+im_h[im_h>255.] = 255.
 im_h = im_h.transpose(1,2,0)
 
 print("Scale=",opt.scale)

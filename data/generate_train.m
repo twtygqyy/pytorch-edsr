@@ -2,14 +2,14 @@ clear;
 close all;
 folder = 'path/to/train/folder';
 
-savepath = 'srresnet_x4.h5';
+savepath = 'edsr_x4.h5';
 
 %% scale factors
 scale = 4;
 
-size_label = 96;
+size_label = 192;
 size_input = size_label/scale;
-stride = 48;
+stride = 96;
 
 %% downsizing
 downsizes = [1,0.7,0.5];
@@ -22,8 +22,6 @@ margain = 0;
 
 %% generate data
 filepaths = [];
-filepaths = [filepaths; dir(fullfile(folder, '*.jpg'))];
-filepaths = [filepaths; dir(fullfile(folder, '*.bmp'))];
 filepaths = [filepaths; dir(fullfile(folder, '*.png'))];
 
 length(filepaths)
@@ -71,7 +69,7 @@ end
 
 order = randperm(count);
 data = data(:, :, :, order);
-label = label(:, :, :, order); 
+label = label(:, :, :, order);
 
 %% writing to HDF5
 chunksz = 64;

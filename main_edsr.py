@@ -11,7 +11,7 @@ from dataset import DatasetFromHdf5
 
 # Training settings
 parser = argparse.ArgumentParser(description="PyTorch EDSR")
-parser.add_argument("--batchSize", type=int, default=64, help="training batch size")
+parser.add_argument("--batchSize", type=int, default=16, help="training batch size")
 parser.add_argument("--nEpochs", type=int, default=500, help="number of epochs to train for")
 parser.add_argument("--lr", type=float, default=1e-4, help="Learning Rate. Default=1e-4")
 parser.add_argument("--step", type=int, default=200, help="Sets the learning rate to the initial LR decayed by momentum every n epochs, Default: n=10")
@@ -51,7 +51,7 @@ def main():
     print("===> Setting GPU")
     if cuda:
         model = model.cuda()
-        criterion = criterion.cuda()  
+        criterion = criterion.cuda()
 
     # optionally resume from a checkpoint
     if opt.resume:
@@ -71,20 +71,10 @@ def main():
         train(training_data_loader, optimizer, model, criterion, epoch)
         save_checkpoint(model, epoch)
 
-def total_gradient(parameters):
-    """Computes a gradient clipping coefficient based on gradient norm."""
-    parameters = list(filter(lambda p: p.grad is not None, parameters))
-    totalnorm = 0
-    for p in parameters: 
-        modulenorm = p.grad.data.norm()
-        totalnorm += modulenorm ** 2
-    totalnorm = totalnorm ** (1./2)
-    return totalnorm
-
 def adjust_learning_rate(optimizer, epoch):
     """Sets the learning rate to the initial LR decayed by 10"""
     lr = opt.lr * (0.1 ** (epoch // opt.step))
-    return lr    
+    return lr
 
 def train(training_data_loader, optimizer, model, criterion, epoch):
 
@@ -93,7 +83,7 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
     for param_group in optimizer.param_groups:
         param_group["lr"] = lr  
 
-    print "epoch =", epoch,"lr =",optimizer.param_groups[0]["lr"]
+    print("Epoch={}, lr={}".format(epoch, optimizer.param_groups[0]["lr"]))
     model.train()
 
     for iteration, batch in enumerate(training_data_loader, 1):
@@ -114,7 +104,6 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
 
         if iteration%100 == 0:
             print("===> Epoch[{}]({}/{}): Loss: {:.10f}".format(epoch, iteration, len(training_data_loader), loss.data[0]))
-            print "total gradient", total_gradient(model.parameters())
 
 def save_checkpoint(model, epoch):
     model_folder = "checkpoint/"
